@@ -143,29 +143,126 @@
       </article>
     </section>
 
-    <section class="view" id="money">
-      <div class="page-heading"><div><p class="eyebrow" data-en="MONEY, MINDFULLY" data-ar="فلوسك بوعي">MONEY, MINDFULLY</p><h1 data-en="Your money" data-ar="فلوسك">Your money</h1><p class="muted" data-en="Know what comes in and what goes out." data-ar="اعرفي دخلك ومصروفاتك.">Know what comes in and what goes out.</p></div></div>
-      <div class="stats-grid money-stats">
-        <article class="stat-card"><div class="stat-title" data-en="Current balance" data-ar="الرصيد الحالي">Current balance</div><div class="stat-value" id="moneyBalance">0 EGP</div></article>
-        <article class="stat-card"><div class="stat-title" data-en="Total income" data-ar="إجمالي الدخل">Total income</div><div class="stat-value green-text" id="moneyIncome">0 EGP</div></article>
-        <article class="stat-card"><div class="stat-title" data-en="Total expenses" data-ar="إجمالي المصروفات">Total expenses</div><div class="stat-value red-text" id="moneyExpenses">0 EGP</div></article>
+   
+<section class="view" id="money">
+  <div class="page-heading">
+    <div>
+      <p class="eyebrow" data-en="MONEY, MINDFULLY" data-ar="فلوسك بوعي">MONEY, MINDFULLY</p>
+      <h1 data-en="Your money" data-ar="فلوسك">فلوسك</h1>
+      <p class="muted" data-en="Know what comes in and what goes out." data-ar="اعرفي دخلك ومصروفاتك.">اعرفي دخلك ومصروفاتك.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid money-stats">
+    <article class="stat-card">
+      <div class="stat-title" data-en="Current balance" data-ar="الرصيد الحالي">الرصيد الحالي</div>
+      <div class="stat-value" id="moneyBalance">0 EGP</div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-title" data-en="Total income" data-ar="إجمالي الدخل">إجمالي الدخل</div>
+      <div class="stat-value green-text" id="moneyIncome">0 EGP</div>
+    </article>
+    <article class="stat-card">
+      <div class="stat-title" data-en="Total expenses" data-ar="إجمالي المصروفات">إجمالي المصروفات</div>
+      <div class="stat-value red-text" id="moneyExpenses">0 EGP</div>
+    </article>
+  </div>
+
+  <!-- Daily budget and alerts -->
+  <article class="panel">
+    <div class="panel-heading">
+      <div>
+        <h2 data-en="Daily budget" data-ar="ميزانيتك اليومية">ميزانيتك اليومية</h2>
+        <p class="muted" data-en="Get alerted when your daily expenses exceed your limit."
+           data-ar="خدي تنبيه لما مصروفاتك اليومية تتجاوز الحد اللي حددتيه.">
+          خدي تنبيه لما مصروفاتك اليومية تتجاوز الحد اللي حددتيه.
+        </p>
       </div>
-      <article class="panel">
-        <div class="panel-heading"><div><h2 data-en="Record a transaction" data-ar="تسجيل حركة مالية">Record a transaction</h2><p class="muted" data-en="Add an income or expense." data-ar="سجلي دخل أو مصروف.">Add an income or expense.</p></div></div>
-        <form id="transactionForm" class="form-grid">
-          <label class="field"><span data-en="Type" data-ar="النوع">Type</span><select id="transactionType"><option value="expense" data-en="Expense" data-ar="مصروف">Expense</option><option value="income" data-en="Income" data-ar="دخل">Income</option></select></label>
-          <label class="field grow"><span data-en="Description" data-ar="الوصف">Description</span><input id="transactionDescription" maxlength="100" required placeholder="e.g. Transport"></label>
-          <label class="field"><span data-en="Amount (EGP)" data-ar="المبلغ (جنيه)">Amount (EGP)</span><input id="transactionAmount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
-          <label class="field"><span data-en="Date" data-ar="التاريخ">Date</span><input id="transactionDate" type="date" required></label>
-          <button class="primary" type="submit" data-en="Save entry" data-ar="حفظ الحركة">Save entry</button>
-        </form>
-      </article>
-      <article class="panel">
-        <div class="panel-heading"><h2 data-en="Transactions" data-ar="الحركات المالية">Transactions</h2></div>
-        <div id="transactionList"></div>
-        <p class="empty-message" id="transactionEmpty" data-en="No transactions yet." data-ar="مفيش حركات مالية لسه.">No transactions yet.</p>
-      </article>
-    </section>
+    </div>
+
+    <form id="budgetForm" class="form-grid">
+      <label class="field grow">
+        <span data-en="Daily limit (EGP)" data-ar="الحد اليومي (جنيه)">الحد اليومي (جنيه)</span>
+        <input id="dailyBudget" type="number" min="0.01" step="0.01"
+               value="100" required>
+      </label>
+      <button class="primary" type="submit"
+              data-en="Save budget" data-ar="حفظ الميزانية">حفظ الميزانية</button>
+    </form>
+
+    <div style="margin-top:20px">
+      <div class="stat-title" data-en="Spent today" data-ar="مصروفات النهارده">مصروفات النهارده</div>
+      <div class="stat-value" id="budgetSpent">0 EGP</div>
+
+      <div style="height:8px;background:var(--border-color, #28343d);border-radius:20px;overflow:hidden;margin:12px 0">
+        <div id="budgetProgress" style="height:100%;width:0%;background:#80d9b0;transition:width .2s"></div>
+      </div>
+
+      <p id="budgetRemaining" class="muted" aria-live="polite">المتبقي: 100 جنيه</p>
+      <p id="budgetMessage" class="muted" aria-live="polite">إنتِ لسه داخل الميزانية.</p>
+    </div>
+
+    <div class="form-grid" style="margin-top:16px">
+      <label class="field">
+        <span data-en="Alert sound" data-ar="صوت التنبيه">صوت التنبيه</span>
+        <select id="budgetSound">
+          <option value="on" data-en="On" data-ar="مفعّل">مفعّل</option>
+          <option value="off" data-en="Off" data-ar="متوقف">متوقف</option>
+        </select>
+      </label>
+
+      <button class="small-button" id="enableBudgetNotifications" type="button"
+              data-en="Enable notifications" data-ar="تفعيل الإشعارات">
+        تفعيل الإشعارات
+      </button>
+    </div>
+    <p class="muted" id="budgetNotificationStatus" aria-live="polite"></p>
+  </article>
+
+  <!-- Existing transaction form -->
+  <article class="panel">
+    <div class="panel-heading">
+      <div>
+        <h2 data-en="Record a transaction" data-ar="تسجيل حركة مالية">تسجيل حركة مالية</h2>
+        <p class="muted" data-en="Add an income or expense." data-ar="سجلي دخل أو مصروف.">سجلي دخل أو مصروف.</p>
+      </div>
+    </div>
+    <form id="transactionForm" class="form-grid">
+      <label class="field">
+        <span data-en="Type" data-ar="النوع">النوع</span>
+        <select id="transactionType">
+          <option value="expense" data-en="Expense" data-ar="مصروف">مصروف</option>
+          <option value="income" data-en="Income" data-ar="دخل">دخل</option>
+        </select>
+      </label>
+      <label class="field grow">
+        <span data-en="Description" data-ar="الوصف">الوصف</span>
+        <input id="transactionDescription" maxlength="100" required placeholder="e.g. Transport">
+      </label>
+      <label class="field">
+        <span data-en="Amount (EGP)" data-ar="المبلغ (جنيه)">المبلغ (جنيه)</span>
+        <input id="transactionAmount" type="number" min="0.01" step="0.01" required placeholder="0.00">
+      </label>
+      <label class="field">
+        <span data-en="Date" data-ar="التاريخ">التاريخ</span>
+        <input id="transactionDate" type="date" required>
+      </label>
+      <button class="primary" type="submit" data-en="Save entry" data-ar="حفظ الحركة">حفظ الحركة</button>
+    </form>
+  </article>
+
+  <!-- Existing transaction history -->
+  <article class="panel">
+    <div class="panel-heading">
+      <h2 data-en="Transactions" data-ar="الحركات المالية">الحركات المالية</h2>
+    </div>
+    <div id="transactionList"></div>
+    <p class="empty-message" id="transactionEmpty"
+       data-en="No transactions yet." data-ar="مفيش حركات مالية لسه.">
+      مفيش حركات مالية لسه.
+    </p>
+  </article>
+</section>
 
     <section class="view" id="bills">
       <div class="page-heading"><div><p class="eyebrow" data-en="NEVER MISS A THING" data-ar="متنسيش حاجة">NEVER MISS A THING</p><h1 data-en="Bills & payments" data-ar="الفواتير والمدفوعات">Bills & payments</h1><p class="muted" data-en="Keep your due dates under control." data-ar="تابعي مواعيد الفواتير.">Keep your due dates under control.</p></div></div>
