@@ -7,6 +7,9 @@
   <title>NEST | Life Organizer</title>
 <link rel="stylesheet" href="css/style.css">
 <script src="script.js" defer></script>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#111820">
+<link rel="apple-touch-icon" href="./icons/nest-192.png">
 </head>
 <body>
   <aside class="sidebar" id="sidebar">
@@ -184,5 +187,14 @@
     <footer class="footer"><span>© <span id="year"></span> NEST</span><span data-en="A calmer way to organize your everyday." data-ar="طريقة أهدى لتنظيم يومك.">A calmer way to organize your everyday.</span></footer>
   </main>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js");
+  });
+}
+</script>
+
 </body>
 </html>
