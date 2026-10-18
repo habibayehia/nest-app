@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEST | Life Organizer</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="script.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#">NEST<span>.</span></a>
+    <p class="nav-label" data-en="WORKSPACE" data-ar="مساحتك">WORKSPACE</p>
+
+    <nav>
+      <button class="nav-link active" data-view="dashboard">◫ <span data-en="Dashboard" data-ar="الرئيسية">Dashboard</span></button>
+      <button class="nav-link" data-view="tasks">✓ <span data-en="My Tasks" data-ar="مهامي">My Tasks</span></button>
+      <button class="nav-link" data-view="money">↗ <span data-en="My Money" data-ar="فلوسي">My Money</span></button>
+      <button class="nav-link" data-view="bills">▤ <span data-en="Bills" data-ar="الفواتير">Bills</span></button>
+      <button class="nav-link" data-view="places">⌖ <span data-en="Places" data-ar="المشاوير">Places</span></button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <p data-en="Small steps still move you forward." data-ar="الخطوات الصغيرة بتفرق.">Small steps still move you forward.</p>
+      <small>NEST · Personal planner</small>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="menuButton" class="icon-button" aria-label="Open menu">☰</button>
+      <div class="breadcrumb">NEST <span>/</span> <strong id="pageTitle">Dashboard</strong></div>
+      <button id="languageButton" class="language-button">عربي</button>
+    </header>
+
+    <section class="view active" id="dashboard">
+      <div class="page-heading">
+        <div>
+          <p class="eyebrow" data-en="YOUR PERSONAL SPACE" data-ar="مساحتك الشخصية">YOUR PERSONAL SPACE</p>
+          <h1 data-en="A good day starts here." data-ar="يومك الحلو بيبدأ من هنا.">A good day starts here.</h1>
+          <p class="muted" data-en="A little more clarity, a little less chaos." data-ar="تنظيم أكتر ولخبطة أقل.">A little more clarity, a little less chaos.</p>
+        </div>
+        <button class="primary" data-goto="tasks" data-en="＋ Add a task" data-ar="＋ أضيفي مهمة">＋ Add a task</button>
+      </div>
+
+      <div class="hero">
+        <div>
+          <span class="hero-label" data-en="YOUR DAY, YOUR PACE" data-ar="يومك على مهلك">YOUR DAY, YOUR PACE</span>
+          <h2 data-en="Make space for what matters." data-ar="اعملي مساحة للي يهمك.">Make space for what matters.</h2>
+          <p data-en="Plan your priorities, look after your money, and keep moving." data-ar="رتبي أولوياتك وتابعي فلوسك خطوة بخطوة.">Plan your priorities, look after your money, and keep moving.</p>
+        </div>
+        <div class="hero-logo">N<span>.</span></div>
+      </div>
+
+      <div class="section-heading">
+        <div>
+          <h2 data-en="At a glance" data-ar="ملخص سريع">At a glance</h2>
+          <p class="muted" data-en="Your essentials in one place." data-ar="أهم حاجاتك في مكان واحد.">Your essentials in one place.</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card">
+          <div class="stat-title" data-en="Tasks completed" data-ar="المهام المكتملة">Tasks completed</div>
+          <div class="stat-value" id="taskStats">0 / 0</div>
+          <div class="progress"><div id="taskProgress"></div></div>
+          <small id="taskPercent">0% complete</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-title" data-en="Current balance" data-ar="الرصيد الحالي">Current balance</div>
+          <div class="stat-value" id="balanceStats">0 EGP</div>
+          <small data-en="Based on your entries" data-ar="حسب الحركات المسجلة">Based on your entries</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-title" data-en="Monthly income" data-ar="دخل الشهر">Monthly income</div>
+          <div class="stat-value" id="incomeStats">0 EGP</div>
+          <small class="green-text" data-en="Money coming in" data-ar="الفلوس الداخلة">Money coming in</small>
+        </article>
+        <article class="stat-card">
+          <div class="stat-title" data-en="Monthly expenses" data-ar="مصروفات الشهر">Monthly expenses</div>
+          <div class="stat-value" id="expenseStats">0 EGP</div>
+          <small class="red-text" data-en="Money going out" data-ar="الفلوس الخارجة">Money going out</small>
+        </article>
+      </div>
+
+      <div class="content-grid">
+        <article class="panel">
+          <div class="panel-heading">
+            <div><h2 data-en="Today's tasks" data-ar="مهام النهارده">Today's tasks</h2><p class="muted" data-en="One step at a time." data-ar="خطوة واحدة كل مرة.">One step at a time.</p></div>
+            <button class="text-button" data-goto="tasks" data-en="View all ↗" data-ar="عرض الكل ↗">View all ↗</button>
+          </div>
+          <div id="dashboardTasks"></div>
+          <p class="empty-message" id="dashboardTasksEmpty" data-en="No tasks yet. Add your first one!" data-ar="مفيش مهام لسه، ضيفي أول مهمة!">No tasks yet. Add your first one!</p>
+        </article>
+
+        <article class="panel">
+          <div class="panel-heading">
+            <div><h2 data-en="Upcoming bills" data-ar="الفواتير القادمة">Upcoming bills</h2><p class="muted" data-en="Keep track of due dates." data-ar="تابعي مواعيد الدفع.">Keep track of due dates.</p></div>
+            <button class="text-button" data-goto="bills" data-en="View all ↗" data-ar="عرض الكل ↗">View all ↗</button>
+          </div>
+          <div id="dashboardBills"></div>
+          <p class="empty-message" id="dashboardBillsEmpty" data-en="No unpaid bills." data-ar="مفيش فواتير غير مدفوعة.">No unpaid bills.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="view" id="tasks">
+      <div class="page-heading">
+        <div><p class="eyebrow" data-en="MAKE IT HAPPEN" data-ar="ابدئي وخلّصي">MAKE IT HAPPEN</p><h1 data-en="Your tasks" data-ar="مهامك">Your tasks</h1><p class="muted" data-en="Turn plans into little wins." data-ar="حوّلي خططك لخطوات صغيرة.">Turn plans into little wins.</p></div>
+      </div>
+      <article class="panel">
+        <div class="panel-heading"><div><h2 data-en="Add a task" data-ar="إضافة مهمة">Add a task</h2><p class="muted" data-en="What do you need to do?" data-ar="محتاجة تعملي إيه؟">What do you need to do?</p></div></div>
+        <form id="taskForm" class="form-grid">
+          <label class="field grow"><span data-en="Task name" data-ar="اسم المهمة">Task name</span><input id="taskName" maxlength="120" required placeholder="e.g. Study JavaScript"></label>
+          <label class="field"><span data-en="Due date" data-ar="الموعد">Due date</span><input type="date" id="taskDate"></label>
+          <button class="primary" type="submit" data-en="＋ Add task" data-ar="＋ إضافة المهمة">＋ Add task</button>
+        </form>
+      </article>
+      <article class="panel">
+        <div class="panel-heading"><h2 data-en="Your list" data-ar="قائمة المهام">Your list</h2>
+          <div class="filters">
+            <button class="filter active" data-filter="all" data-en="All" data-ar="الكل">All</button>
+            <button class="filter" data-filter="active" data-en="Active" data-ar="المتبقي">Active</button>
+            <button class="filter" data-filter="completed" data-en="Completed" data-ar="المكتمل">Completed</button>
+          </div>
+        </div>
+        <div id="taskList"></div>
+        <p class="empty-message" id="taskListEmpty" data-en="Nothing here yet." data-ar="مفيش مهام هنا لسه.">Nothing here yet.</p>
+      </article>
+    </section>
+
+    <section class="view" id="money">
+      <div class="page-heading"><div><p class="eyebrow" data-en="MONEY, MINDFULLY" data-ar="فلوسك بوعي">MONEY, MINDFULLY</p><h1 data-en="Your money" data-ar="فلوسك">Your money</h1><p class="muted" data-en="Know what comes in and what goes out." data-ar="اعرفي دخلك ومصروفاتك.">Know what comes in and what goes out.</p></div></div>
+      <div class="stats-grid money-stats">
+        <article class="stat-card"><div class="stat-title" data-en="Current balance" data-ar="الرصيد الحالي">Current balance</div><div class="stat-value" id="moneyBalance">0 EGP</div></article>
+        <article class="stat-card"><div class="stat-title" data-en="Total income" data-ar="إجمالي الدخل">Total income</div><div class="stat-value green-text" id="moneyIncome">0 EGP</div></article>
+        <article class="stat-card"><div class="stat-title" data-en="Total expenses" data-ar="إجمالي المصروفات">Total expenses</div><div class="stat-value red-text" id="moneyExpenses">0 EGP</div></article>
+      </div>
+      <article class="panel">
+        <div class="panel-heading"><div><h2 data-en="Record a transaction" data-ar="تسجيل حركة مالية">Record a transaction</h2><p class="muted" data-en="Add an income or expense." data-ar="سجلي دخل أو مصروف.">Add an income or expense.</p></div></div>
+        <form id="transactionForm" class="form-grid">
+          <label class="field"><span data-en="Type" data-ar="النوع">Type</span><select id="transactionType"><option value="expense" data-en="Expense" data-ar="مصروف">Expense</option><option value="income" data-en="Income" data-ar="دخل">Income</option></select></label>
+          <label class="field grow"><span data-en="Description" data-ar="الوصف">Description</span><input id="transactionDescription" maxlength="100" required placeholder="e.g. Transport"></label>
+          <label class="field"><span data-en="Amount (EGP)" data-ar="المبلغ (جنيه)">Amount (EGP)</span><input id="transactionAmount" type="number" min="0.01" step="0.01" required placeholder="0.00"></label>
+          <label class="field"><span data-en="Date" data-ar="التاريخ">Date</span><input id="transactionDate" type="date" required></label>
+          <button class="primary" type="submit" data-en="Save entry" data-ar="حفظ الحركة">Save entry</button>
+        </form>
+      </article>
+      <article class="panel">
+        <div class="panel-heading"><h2 data-en="Transactions" data-ar="الحركات المالية">Transactions</h2></div>
+        <div id="transactionList"></div>
+        <p class="empty-message" id="transactionEmpty" data-en="No transactions yet." data-ar="مفيش حركات مالية لسه.">No transactions yet.</p>
+      </article>
+    </section>
+
+    <section class="view" id="bills">
+      <div class="page-heading"><div><p class="eyebrow" data-en="NEVER MISS A THING" data-ar="متنسيش حاجة">NEVER MISS A THING</p><h1 data-en="Bills & payments" data-ar="الفواتير والمدفوعات">Bills & payments</h1><p class="muted" data-en="Keep your due dates under control." data-ar="تابعي مواعيد الفواتير.">Keep your due dates under control.</p></div></div>
+      <article class="panel">
+        <div class="panel-heading"><div><h2 data-en="Add a bill" data-ar="إضافة فاتورة">Add a bill</h2><p class="muted" data-en="Subscriptions, utilities, or payments." data-ar="اشتراكات أو فواتير أو مدفوعات.">Subscriptions, utilities, or payments.</p></div></div>
+        <form id="billForm" class="form-grid">
+          <label class="field grow"><span data-en="Bill name" data-ar="اسم الفاتورة">Bill name</span><input id="billName" required maxlength="100" placeholder="e.g. Internet"></label>
+          <label class="field"><span data-en="Amount (EGP)" data-ar="المبلغ (جنيه)">Amount (EGP)</span><input id="billAmount" type="number" min="0.01" step="0.01" required></label>
+          <label class="field"><span data-en="Due date" data-ar="موعد الدفع">Due date</span><input id="billDate" type="date" required></label>
+          <button class="primary" type="submit" data-en="＋ Add bill" data-ar="＋ إضافة فاتورة">＋ Add bill</button>
+        </form>
+      </article>
+      <article class="panel"><div class="panel-heading"><h2 data-en="All bills" data-ar="كل الفواتير">All bills</h2></div><div id="billList"></div><p class="empty-message" id="billEmpty" data-en="No bills added yet." data-ar="مفيش فواتير مضافة لسه.">No bills added yet.</p></article>
+    </section>
+
+    <section class="view" id="places">
+      <div class="page-heading"><div><p class="eyebrow" data-en="OUT AND ABOUT" data-ar="مشاويرك">OUT AND ABOUT</p><h1 data-en="Places & errands" data-ar="الأماكن والمشاوير">Places & errands</h1><p class="muted" data-en="Keep your stops in one list." data-ar="اجمعي مشاويرك في قائمة واحدة.">Keep your stops in one list.</p></div></div>
+      <article class="panel">
+        <div class="panel-heading"><div><h2 data-en="Add a place or errand" data-ar="إضافة مكان أو مشوار">Add a place or errand</h2><p class="muted" data-en="Save the details before you forget." data-ar="سجلي التفاصيل قبل ما تنسيها.">Save the details before you forget.</p></div></div>
+        <form id="placeForm" class="form-grid">
+          <label class="field grow"><span data-en="Place / errand" data-ar="المكان أو المشوار">Place / errand</span><input id="placeName" required maxlength="120" placeholder="e.g. Pick up a package"></label>
+          <label class="field grow"><span data-en="Notes (optional)" data-ar="ملاحظات (اختياري)">Notes (optional)</span><input id="placeNotes" maxlength="160" placeholder="e.g. Near work"></label>
+          <button class="primary" type="submit" data-en="＋ Add place" data-ar="＋ إضافة مكان">＋ Add place</button>
+        </form>
+      </article>
+      <article class="panel"><div class="panel-heading"><h2 data-en="Your places" data-ar="قائمة المشاوير">Your places</h2></div><div id="placeList"></div><p class="empty-message" id="placeEmpty" data-en="No places yet." data-ar="مفيش مشاوير مضافة لسه.">No places yet.</p></article>
+    </section>
+
+    <footer class="footer"><span>© <span id="year"></span> NEST</span><span data-en="A calmer way to organize your everyday." data-ar="طريقة أهدى لتنظيم يومك.">A calmer way to organize your everyday.</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
