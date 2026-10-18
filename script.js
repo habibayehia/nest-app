@@ -70,7 +70,7 @@ function money(value) {
 }
 
 function dateText(value) {
-  if (!value) return t("No date", "من غير ميعاد");
+  if (!value) return t("No date", "بدون تاريخ");
 
   const date = new Date(value + "T12:00:00");
 
@@ -146,12 +146,12 @@ function renderBudget() {
   }
 
   spentEl.textContent =
-    `${t("Spent today: ", "مصروفات النهارده: ")}${money(spent)}`;
+    `${t("Spent today: ", "مصروفات اليوم: ")}${money(spent)}`;
 
   if (budget === null) {
     remainingEl.textContent = t(
       "Set your daily budget first.",
-      "حدد الميزانية اليومية الأول.",
+      "حدد الميزانية اليومية أولًا.",
     );
 
     progressEl.style.width = "0%";
@@ -171,7 +171,7 @@ function renderBudget() {
   remainingEl.textContent =
     remaining >= 0
       ? `${t("Remaining: ", "المتبقي: ")}${money(remaining)}`
-      : `${t("Over budget by: ", "تجاوزت المصروفات الميزانية بمقدار: ")}${money(Math.abs(remaining))}`;
+      : `${t("Over budget by: ", "الزيادة عن الميزانية: ")}${money(Math.abs(remaining))}`;
 
   progressEl.style.width = `${percent}%`;
   progressEl.style.background =
@@ -180,21 +180,21 @@ function renderBudget() {
   if (spent > budget) {
     messageEl.textContent = t(
       "Budget exceeded! Review today's spending.",
-      "تم تجاوز الميزانية اليومية! راجع المصروفات.",
+      "تم تجاوز الميزانية اليومية! راجع مصروفات اليوم.",
     );
 
     messageEl.style.color = "#ef6b73";
   } else if (spent === budget) {
     messageEl.textContent = t(
       "You've reached your daily budget.",
-      "وصلت المصروفات للحد اليومي.",
+      "وصلت المصروفات إلى الحد اليومي.",
     );
 
     messageEl.style.color = "";
   } else {
     messageEl.textContent = t(
       "You're within your daily budget.",
-      "المصروفات لسه في حدود الميزانية اليومية.",
+      "المصروفات ما زالت في حدود الميزانية اليومية.",
     );
 
     messageEl.style.color = "";
@@ -290,7 +290,7 @@ function checkBudgetAlert() {
 
   const message = t(
     `Daily budget exceeded! You've spent ${money(spent)} out of ${money(budget)}.`,
-    `تم تجاوز الميزانية اليومية! المصروفات ${money(spent)} من أصل ${money(budget)}.`,
+    `تم تجاوز الميزانية اليومية! إجمالي المصروفات ${money(spent)} من أصل ${money(budget)}.`,
   );
 
   toast(message);
@@ -334,7 +334,7 @@ function updateLanguage() {
 
   $("#placeNotes").placeholder = t(
     "e.g. Near work",
-    "مثال: قريب من الشغل",
+    "مثال: بالقرب من العمل",
   );
 
   const budgetInput = $("#dailyBudget");
@@ -342,7 +342,7 @@ function updateLanguage() {
   if (budgetInput) {
     budgetInput.placeholder = t(
       "Enter your daily budget",
-      "اكتب الميزانية اليومية بالجنيه",
+      "الميزانية اليومية بالجنيه",
     );
   }
 
@@ -539,10 +539,10 @@ function renderBills() {
       return `<div class="list-row">
       <div class="row-main">
         <span class="row-title">${safe(bill.name)}</span>
-        <span class="row-sub">${t("Due", "موعدها")}: ${safe(dateText(bill.date))} · ${money(bill.amount)}</span>
+        <span class="row-sub">${t("Due", "موعد الاستحقاق")}: ${safe(dateText(bill.date))} · ${money(bill.amount)}</span>
       </div>
-      <span class="status ${bill.paid ? "paid" : overdue ? "overdue" : ""}">${bill.paid ? t("Paid", "مدفوعة") : overdue ? t("Overdue", "متأخرة") : t("Pending", "متبقية")}</span>
-      <button class="small-button" data-toggle-bill="${safe(bill.id)}">${bill.paid ? t("Undo", "إلغاء") : t("Mark paid", "تم الدفع")}</button>
+      <span class="status ${bill.paid ? "paid" : overdue ? "overdue" : ""}">${bill.paid ? t("Paid", "مدفوعة") : overdue ? t("Overdue", "متأخرة") : t("Pending", "مستحقة")}</span>
+      <button class="small-button" data-toggle-bill="${safe(bill.id)}">${bill.paid ? t("Undo", "تراجع") : t("Mark paid", "تحديد كمدفوعة")}</button>
       <button class="delete-button" data-delete-bill="${safe(bill.id)}" aria-label="${t("Delete", "حذف")}">×</button>
     </div>`;
     })
@@ -560,9 +560,9 @@ function renderPlaces() {
     <div class="list-row">
       <div class="row-main">
         <span class="row-title ${place.done ? "task-completed" : ""}">${safe(place.name)}</span>
-        <span class="row-sub">${safe(place.notes || t("No notes", "مفيش ملاحظات"))}</span>
+        <span class="row-sub">${safe(place.notes || t("No notes", "لا توجد ملاحظات"))}</span>
       </div>
-      <button class="small-button" data-toggle-place="${safe(place.id)}">${place.done ? t("Done", "تم") : t("Pending", "متبقي")}</button>
+      <button class="small-button" data-toggle-place="${safe(place.id)}">${place.done ? t("Done", "تم") : t("Pending", "قيد التنفيذ")}</button>
       <button class="delete-button" data-delete-place="${safe(place.id)}" aria-label="${t("Delete", "حذف")}">×</button>
     </div>`,
     )
@@ -598,7 +598,7 @@ $("#budgetForm").addEventListener("submit", (event) => {
   ) {
     toast(t(
       "Enter a valid daily budget.",
-      "أدخل ميزانية يومية صحيحة.",
+      "اكتب مبلغًا صحيحًا للميزانية اليومية.",
     ));
 
     return;
@@ -648,13 +648,13 @@ $("#enableBudgetNotifications").addEventListener("click", async () => {
     } else {
       status.textContent = t(
         "Notifications are blocked. Allow them in browser settings.",
-        "الإشعارات مرفوضة. فعّلها من إعدادات المتصفح.",
+        "الإشعارات مرفوضة. يمكن تفعيلها من إعدادات المتصفح.",
       );
     }
   } catch (error) {
     status.textContent = t(
       "Could not enable notifications.",
-      "حصلت مشكلة في تفعيل الإشعارات.",
+      "تعذر تفعيل الإشعارات.",
     );
   }
 });
@@ -707,6 +707,7 @@ $("#taskForm").addEventListener("submit", (event) => {
 
   saveState();
   event.target.reset();
+
   $("#taskDate").value = today();
 
   renderAll();
@@ -789,6 +790,7 @@ document.addEventListener("click", (event) => {
 
     saveState();
     renderAll();
+    toast(t("Transaction deleted", "تم حذف الحركة المالية"));
   }
 });
 
@@ -801,7 +803,7 @@ $("#billForm").addEventListener("submit", (event) => {
   const amount = Number($("#billAmount").value);
   const date = $("#billDate").value;
 
-  if (!name || amount <= 0 || !date) return;
+  if (!name || !Number.isFinite(amount) || amount <= 0 || !date) return;
 
   state.bills.push({
     id: id(),
@@ -838,6 +840,8 @@ document.addEventListener("click", (event) => {
 
     saveState();
     renderAll();
+
+    toast(t("Bill deleted", "تم حذف الفاتورة"));
   }
 });
 
@@ -881,6 +885,8 @@ document.addEventListener("click", (event) => {
 
     saveState();
     renderAll();
+
+    toast(t("Place deleted", "تم حذف المكان"));
   }
 });
 
