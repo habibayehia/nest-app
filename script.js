@@ -71,7 +71,9 @@ function money(value) {
 
 function dateText(value) {
   if (!value) return t("No date", "من غير ميعاد");
+
   const date = new Date(value + "T12:00:00");
+
   return new Intl.DateTimeFormat(language === "ar" ? "ar-EG" : "en-GB", {
     day: "numeric",
     month: "short",
@@ -86,6 +88,7 @@ function toast(message) {
 
   el.textContent = message;
   el.classList.add("show");
+
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.remove("show"), 3500);
 }
@@ -148,14 +151,16 @@ function renderBudget() {
   if (budget === null) {
     remainingEl.textContent = t(
       "Set your daily budget first.",
-      "حددي ميزانيتك اليومية الأول.",
+      "حدد الميزانية اليومية الأول.",
     );
 
     progressEl.style.width = "0%";
+
     messageEl.textContent = t(
       "Choose your own daily spending limit.",
-      "اختاري الحد اليومي للمصاريف اللي يناسبك.",
+      "حدد الحد اليومي للمصروفات بما يناسبك.",
     );
+
     messageEl.style.color = "";
     return;
   }
@@ -166,7 +171,7 @@ function renderBudget() {
   remainingEl.textContent =
     remaining >= 0
       ? `${t("Remaining: ", "المتبقي: ")}${money(remaining)}`
-      : `${t("Over budget by: ", "تجاوزتي الميزانية بمقدار: ")}${money(Math.abs(remaining))}`;
+      : `${t("Over budget by: ", "تجاوزت المصروفات الميزانية بمقدار: ")}${money(Math.abs(remaining))}`;
 
   progressEl.style.width = `${percent}%`;
   progressEl.style.background =
@@ -175,20 +180,23 @@ function renderBudget() {
   if (spent > budget) {
     messageEl.textContent = t(
       "Budget exceeded! Review today's spending.",
-      "خدي بالك، إنتِ تجاوزتي ميزانية النهارده!",
+      "تم تجاوز الميزانية اليومية! راجع المصروفات.",
     );
+
     messageEl.style.color = "#ef6b73";
   } else if (spent === budget) {
     messageEl.textContent = t(
       "You've reached your daily budget.",
-      "وصلتي للحد اليومي للمصاريف.",
+      "وصلت المصروفات للحد اليومي.",
     );
+
     messageEl.style.color = "";
   } else {
     messageEl.textContent = t(
       "You're within your daily budget.",
-      "إنتِ لسه داخل الميزانية اليومية.",
+      "المصروفات لسه في حدود الميزانية اليومية.",
     );
+
     messageEl.style.color = "";
   }
 }
@@ -224,6 +232,7 @@ function playBudgetAlarm() {
       };
 
       const start = audio.currentTime;
+
       playTone(start, 880);
       playTone(start + 0.38, 660);
 
@@ -243,6 +252,7 @@ async function showBudgetNotification(message) {
   if (Notification.permission !== "granted") return;
 
   const title = t("NEST budget alert", "تنبيه ميزانية NEST");
+
   const options = {
     body: message,
     icon: "./nest-192.png",
@@ -273,13 +283,14 @@ function checkBudgetAlert() {
   if (spent <= budget) return;
 
   const alertKey = `${today()}-${budget}`;
+
   if (localStorage.getItem(BUDGET_ALERT_KEY) === alertKey) return;
 
   localStorage.setItem(BUDGET_ALERT_KEY, alertKey);
 
   const message = t(
     `Daily budget exceeded! You've spent ${money(spent)} out of ${money(budget)}.`,
-    `تجاوزتي الميزانية اليومية! صرفتي ${money(spent)} من أصل ${money(budget)}.`,
+    `تم تجاوز الميزانية اليومية! المصروفات ${money(spent)} من أصل ${money(budget)}.`,
   );
 
   toast(message);
@@ -293,6 +304,7 @@ function updateLanguage() {
   document.documentElement.lang = language;
   document.documentElement.dir = language === "ar" ? "rtl" : "ltr";
   document.body.lang = language;
+
   $("#languageButton").textContent =
     language === "ar" ? "English" : "عربي";
 
@@ -326,14 +338,16 @@ function updateLanguage() {
   );
 
   const budgetInput = $("#dailyBudget");
+
   if (budgetInput) {
     budgetInput.placeholder = t(
       "Enter your daily budget",
-      "اكتبي ميزانيتك اليومية بالجنيه",
+      "اكتب الميزانية اليومية بالجنيه",
     );
   }
 
   const active = $(".nav-link.active");
+
   if (active) {
     $("#pageTitle").textContent =
       active.querySelector("span").textContent;
@@ -352,6 +366,7 @@ function showView(view) {
   );
 
   const active = $(`.nav-link[data-view="${view}"]`);
+
   if (active) {
     $("#pageTitle").textContent =
       active.querySelector("span").textContent;
@@ -391,8 +406,10 @@ function renderDashboard() {
 
   $("#taskStats").textContent = `${done} / ${total}`;
   $("#taskProgress").style.width = percent + "%";
+
   $("#taskPercent").textContent =
     `${percent}% ${t("complete", "مكتمل")}`;
+
   $("#balanceStats").textContent = money(totals.balance);
   $("#incomeStats").textContent = money(thisMonth("income"));
   $("#expenseStats").textContent = money(thisMonth("expense"));
@@ -562,6 +579,7 @@ function renderAll() {
   renderMoney();
   renderBills();
   renderPlaces();
+
   $("#year").textContent = new Date().getFullYear();
 }
 
@@ -580,8 +598,9 @@ $("#budgetForm").addEventListener("submit", (event) => {
   ) {
     toast(t(
       "Enter a valid daily budget.",
-      "اكتبي ميزانية يومية صحيحة.",
+      "أدخل ميزانية يومية صحيحة.",
     ));
+
     return;
   }
 
@@ -609,6 +628,7 @@ $("#enableBudgetNotifications").addEventListener("click", async () => {
       "This browser does not support notifications.",
       "المتصفح ده لا يدعم الإشعارات.",
     );
+
     return;
   }
 
@@ -628,7 +648,7 @@ $("#enableBudgetNotifications").addEventListener("click", async () => {
     } else {
       status.textContent = t(
         "Notifications are blocked. Allow them in browser settings.",
-        "الإشعارات مرفوضة. اسمحي بيها من إعدادات المتصفح.",
+        "الإشعارات مرفوضة. فعّلها من إعدادات المتصفح.",
       );
     }
   } catch (error) {
@@ -688,6 +708,7 @@ $("#taskForm").addEventListener("submit", (event) => {
   saveState();
   event.target.reset();
   $("#taskDate").value = today();
+
   renderAll();
   toast(t("Task added", "تمت إضافة المهمة"));
 });
@@ -718,8 +739,10 @@ document.addEventListener("click", (event) => {
 
   if (taskId) {
     state.tasks = state.tasks.filter((x) => x.id !== taskId);
+
     saveState();
     renderAll();
+
     toast(t("Task deleted", "تم حذف المهمة"));
   }
 });
@@ -747,6 +770,7 @@ $("#transactionForm").addEventListener("submit", (event) => {
 
   saveState();
   event.target.reset();
+
   $("#transactionDate").value = today();
 
   renderAll();
@@ -789,7 +813,9 @@ $("#billForm").addEventListener("submit", (event) => {
 
   saveState();
   event.target.reset();
+
   $("#billDate").value = today();
+
   renderAll();
   toast(t("Bill added", "تمت إضافة الفاتورة"));
 });
@@ -800,6 +826,7 @@ document.addEventListener("click", (event) => {
 
   if (toggleBill) {
     const bill = state.bills.find((x) => x.id === toggleBill);
+
     if (bill) bill.paid = !bill.paid;
 
     saveState();
@@ -808,6 +835,7 @@ document.addEventListener("click", (event) => {
 
   if (deleteBill) {
     state.bills = state.bills.filter((x) => x.id !== deleteBill);
+
     saveState();
     renderAll();
   }
@@ -830,6 +858,7 @@ $("#placeForm").addEventListener("submit", (event) => {
 
   saveState();
   event.target.reset();
+
   renderAll();
   toast(t("Place added", "تمت إضافة المكان"));
 });
@@ -840,6 +869,7 @@ document.addEventListener("click", (event) => {
 
   if (togglePlace) {
     const place = state.places.find((x) => x.id === togglePlace);
+
     if (place) place.done = !place.done;
 
     saveState();
@@ -848,6 +878,7 @@ document.addEventListener("click", (event) => {
 
   if (deletePlace) {
     state.places = state.places.filter((x) => x.id !== deletePlace);
+
     saveState();
     renderAll();
   }
