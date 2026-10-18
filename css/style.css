@@ -1048,3 +1048,63 @@ h2 {
     transition-duration: .01ms !important;
   }
 }
+
+/* Fix input overflow on all screen sizes */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  max-width: 100%;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+}
+
+/* Form containers */
+form,
+.form-group,
+.form-container,
+.input-group {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img,
+table {
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  form {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  button {
+    max-width: 100%;
+    white-space: normal;
+  }
+}
