@@ -1,1 +1,24 @@
 
+{
+  "name": "NEST",
+  "short_name": "NEST",
+  "description": "NEST Life Organizer",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#111820",
+  "theme_color": "#111820",
+  "icons": [
+    {
+      "src": "./nest-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./nest-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
+
